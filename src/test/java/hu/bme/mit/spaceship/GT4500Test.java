@@ -26,11 +26,11 @@ public class GT4500Test {
     when(primary.fire(1)).thenReturn(true); 
 
     // Act
-    ship.fireTorpedo(FiringMode.SINGLE);
+    var result = ship.fireTorpedo(FiringMode.SINGLE);
 
     // Assert
     verify(primary, times(1)).fire(1); 
-    //assertEquals(true, result);
+    assertEquals(true, result);
   }
 
   @Test
@@ -40,12 +40,25 @@ public class GT4500Test {
     when(secondary.fire(1)).thenReturn(true); 
 
     // Act
-    ship.fireTorpedo(FiringMode.ALL);
+    var result = ship.fireTorpedo(FiringMode.ALL);
 
     // Assert
-    //assertEquals(true, result);
+    assertEquals(true, result);
     verify(primary, times(1)).fire(1); 
     verify(secondary, times(1)).fire(1); 
+  }
+
+  @Test
+  public void fireTorpedo_All_Failed(){
+    // Arrange
+    when(primary.fire(1)).thenReturn(false); 
+    when(secondary.fire(1)).thenReturn(false); 
+
+    // Act
+    var result = ship.fireTorpedo(FiringMode.ALL);
+
+    // Assert
+    assertEquals(false, result);
   }
 
 }
